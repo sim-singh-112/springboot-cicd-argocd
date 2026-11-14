@@ -1,0 +1,62 @@
+
+pipeline {
+    agent any
+
+    tools {
+        jdk 'JDK17'
+        maven 'Maven3'
+    }
+
+    environment {
+        APP_NAME = 'spring-boot-cicd-app'
+    }
+
+    stages {
+
+        stage('Git Checkout') {
+            steps {
+                echo 'Checking out source code'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Unit Testing') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'SonarQube analysis will be configured here'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t ${APP_NAME}:${BUILD_NUMBER} .'
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                echo 'Docker image push will be configured here'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
+        }
+    }
+}
