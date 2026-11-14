@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-app
-          image: YOUR_DOCKERHUB_USERNAME/spring-boot-cicd-app:latest
+          image: sim-singh-112/spring-boot-cicd-app:latest
           ports:
             - containerPort: 8080
 
